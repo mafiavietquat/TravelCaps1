@@ -9,7 +9,7 @@ export const publicRoutes = [
     component: Home,
   },
   {
-    path: "/place/:id",
+    path: "/place/:slug",
     component: PlaceDetail,
   },
   {
