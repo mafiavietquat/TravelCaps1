@@ -263,7 +263,7 @@ const data = {
     },
     {
       name: "Bãi biển Xuân Thiều",
-      slug: "bai-bien-my-khe",
+      slug: "bai-bien-xuan-thieu",
       category: "Bãi biển đẹp",
       image: "/images/baibienxuanthieu.jpg",
       imageCaption:

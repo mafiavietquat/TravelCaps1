@@ -1,16 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 //
 import "./Home.scss";
-import data from "../../data.js";
+// import data from "../../data.js";
 
 const Home = () => {
+  const [places, setPlaces] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios.get("/api/places");
+      setPlaces(result.data);
+    };
+    fetchData();
+  }, []);
   return (
-    <div>
+    <div className="home">
       <h1>DEMO HIEN THI CAC DIA DIEM</h1>
       <div className="places">
-        {data.places.map((place) => (
+        {places.map((place) => (
           <div className="place" key={place.slug}>
             <Link to={`/place/${place.slug}`}>
               <img src={place.image} alt={place.name} />
