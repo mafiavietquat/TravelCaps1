@@ -1,28 +1,38 @@
 import "./App.scss";
-import data from "./data";
-import Iframe from "react-iframe";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Fragment } from "react";
+//
+import { publicRoutes } from "./config/Routes";
+import DefaultLayout from "./components/Layout/DefaultLayout/DefaultLayout";
 
 function App() {
   return (
-    <div className="App">
-      {data.products.map((item, index) => (
-        <div>
-          <p>{item.index}</p>
-          <h2>{item.name}</h2>
-          <img src={item.image} alt={item.imageCaption} />
-          <Iframe
-            url={item.mapUrl}
-            width="640px"
-            height="320px"
-            id="map"
-            className="map"
-            display="block"
-            position="relative"
-            allowFullScreen="true"
-          />
-        </div>
-      ))}
-    </div>
+    <Router>
+      <div className="app">
+        <Routes>
+          {publicRoutes.map((route, index) => {
+            const Page = route.component;
+            let Layout = DefaultLayout;
+            if (route.layout) {
+              Layout = route.layout;
+            } else if (route.layout === null) {
+              Layout = Fragment;
+            }
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                element={
+                  <Layout>
+                    <Page />
+                  </Layout>
+                }
+              />
+            );
+          })}
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

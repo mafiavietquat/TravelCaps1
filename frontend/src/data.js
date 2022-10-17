@@ -1,5 +1,5 @@
 const data = {
-  products: [
+  places: [
     {
       name: "Bãi Bụi",
       slug: "bai-bui",
