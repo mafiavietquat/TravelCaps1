@@ -1,0 +1,10 @@
+@use "../../../../scss/" as *;
+
+.footer {
+  background-color: $clr-primary;
+  &__text {
+    text-align: center;
+    color: $clr-white;
+    padding: 2rem 0;
+  }
+}

@@ -8,12 +8,15 @@
 }
 html {
   font-size: 62.5%;
-  scroll-behavior: smooth;
 }
 body {
   font-family: $font-family;
+  color: $clr-text-primry;
   font-size: 1.6rem;
   line-height: 1.5;
   text-rendering: optimizeSpeed;
+  overflow-x: hidden;
+  overflow-y: scroll;
   scroll-behavior: smooth;
+  transition: all ease-in-out;
 }

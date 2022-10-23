@@ -1,0 +1,21 @@
+.button {
+  display: inline-block;
+  border: none;
+  outline: none;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  font-weight: 500;
+  &__primary {
+    color: #ddd;
+    background-color: crimson;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    border: 1px solid transparent;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+      color: crimson;
+      background-color: white;
+      border: 1px solid crimson;
+    }
+  }
+}
