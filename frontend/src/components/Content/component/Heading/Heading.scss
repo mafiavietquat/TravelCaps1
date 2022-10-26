@@ -1,0 +1,26 @@
+@use "../../../../scss/" as *;
+@import url("https://fonts.googleapis.com/css2?family=Satisfy&display=swap");
+
+.headingContent {
+  text-align: center;
+  width: 65rem;
+  margin: 0 auto 6rem auto;
+  &__head {
+    font-family: "Satisfy", cursive;
+    color: $clr-primary;
+    font-size: 4rem;
+    line-height: 1.5;
+  }
+  &__title {
+    color: $clr-black;
+    font-size: 5rem;
+    font-weight: 600;
+  }
+  &__desc {
+    font-size: 1.8rem;
+    font-weight: 400;
+    line-height: 2.8rem;
+    color: $clr-gray-dark;
+    margin-top: 1.2rem;
+  }
+}

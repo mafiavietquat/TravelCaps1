@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import { FaFacebook, FaInstagram, FaMailBulk, FaYoutube } from "react-icons/fa";
 import { BiPhoneCall } from "react-icons/bi";
@@ -7,11 +7,28 @@ import { RiLuggageCartFill } from "react-icons/ri";
 import Logo from "../../../../assets/logo.png";
 import { BsSearch } from "react-icons/bs";
 import { TfiAlignRight } from "react-icons/tfi";
+import Sidebar from "../../../Sidebar/Sidebar";
 
 //
 import "./Header.scss";
 
 const Header = () => {
+  const [isOpenSidebar, setIsopenSidebar] = useState(false);
+  const [sticky, setSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setSticky(window.scrollY >= 150);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () =>
+      setSticky(window.scrollY >= 10) &&
+      window.removeEventListener("scroll", handleScroll);
+  });
+
+  const ToggleSidebar = () => {
+    isOpenSidebar === true ? setIsopenSidebar(false) : setIsopenSidebar(true);
+  };
   return (
     <header className="header">
       <div className="header__top">
@@ -55,7 +72,7 @@ const Header = () => {
           </div>
         </Container>
       </div>
-      <div className="header__bot">
+      <div className={sticky ? "header__bot fixed" : "header__bot"}>
         <Container>
           <div className="header__nav">
             <a href="/" className="header__logo">
@@ -87,11 +104,6 @@ const Header = () => {
                   Contact
                 </a>
               </li>
-              <li className="header__menu-item">
-                <a href="# " className="header__menu-link">
-                  Home
-                </a>
-              </li>
             </ul>
             <div className="header__bot-right">
               <div className="header__cart">
@@ -103,8 +115,18 @@ const Header = () => {
                   <BsSearch />
                 </button>
               </div>
-              <div className="header__sidebar">
+              <div className="header__sidebar" onClick={ToggleSidebar}>
                 <TfiAlignRight />
+                <Sidebar
+                  isOpenSidebar={isOpenSidebar}
+                  ToggleSidebar={ToggleSidebar}
+                />
+                <div
+                  className={`sidebar-overlay ${
+                    isOpenSidebar === true ? "active" : ""
+                  }`}
+                  onClick={ToggleSidebar}
+                ></div>
               </div>
             </div>
           </div>

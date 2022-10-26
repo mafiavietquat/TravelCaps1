@@ -19,3 +19,29 @@
     }
   }
 }
+@keyframes scaleAsc {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.03);
+  }
+}
+
+@keyframes rotateRight {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes sticky {
+  0% {
+    top: -100%;
+  }
+  100% {
+    top: 0%;
+  }
+}

@@ -2,7 +2,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles:wght@400;700&display=swap");
 
 .header {
-  overflow: hidden;
+  // overflow: hidden;
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 
   &__top {
     @include flex(row, center, space-between);
@@ -20,7 +23,7 @@
           list-style: none;
           font-size: 1.4rem;
           font-weight: 500;
-          color: $clr-text-primry;
+          color: $clr-text-primary;
           span {
             margin-left: 0.5rem;
           }
@@ -52,6 +55,7 @@
     &-right {
       @include flex(row, center, space-between);
       gap: 3rem;
+      cursor: pointer;
       svg {
         font-size: 2.3rem;
       }
@@ -78,7 +82,7 @@
       text-decoration: none;
       font-size: 1.7rem;
       font-weight: 500;
-      color: $clr-text-primry;
+      color: $clr-text-primary;
       transition: $transitionAll;
       &:hover {
         color: $clr-primary;
@@ -118,7 +122,7 @@
       outline: none;
       padding: 0.2rem 1rem;
       background: $clr-primary;
-      color: $clr-text-primry;
+      color: $clr-text-primary;
       height: 100%;
       &:hover {
         color: $clr-primary;
@@ -129,4 +133,31 @@
       }
     }
   }
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: 0.5s;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 998;
+  }
+  .sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.header__bot.fixed {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  transition: 0.5s;
+  z-index: 10000;
+  animation: sticky 1.5s ease-in-out;
 }

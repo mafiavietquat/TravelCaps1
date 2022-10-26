@@ -1,4 +1,5 @@
-import banner from "../../assets/banner.jpg";
-import banner2 from "../../assets/banner2.jpg";
+import bantayphat from "../../assets/bantayphat.jpg";
+import caurong from "../../assets/caurong.jpg";
+import chualinhung from "../../assets/chualinhung.jpg";
 
-export { banner, banner2 };
+export { bantayphat, caurong, chualinhung };
