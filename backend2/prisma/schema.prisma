@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+//code tạo bảng
+model User {
+  Id Int @default(autoincrement()) @id
+  userName String @unique
+  password String
+  firstName String
+  lastName String
+  gender String
+  address String
+  image String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  //relation
+  cart Cart?
+  log Log[]
+}
+
+
+model Admin {
+  Id Int @default(autoincrement()) @id
+  type String
+  userName String @unique
+  password String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  //relation
+  log Log[]
+}
+
+
+model Cart {
+  Id Int @default(autoincrement()) @id
+  dateBegin DateTime
+  dateEnd DateTime
+  userRate Boolean
+  starRate Boolean
+  comment String
+  status String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  //relation
+  userId Int @unique
+  user User @relation(fields:[userId],references:[Id])
+  place Cart_Product[]
+}
+
+model Cart_Product {
+  cartId Int
+  cart Cart @relation(fields:[cartId],references:[Id])
+
+  placeId  Int
+  place Place @relation(fields:[placeId],references:[Id])
+
+  assignedAt DateTime @default(now())
+  assignedBy String
+
+  @@id([cartId,placeId])
+}
+
+model Place {
+  Id Int @default(autoincrement()) @id
+  namePlace String
+  imgPlace String
+  location String @unique
+  starRate Boolean //tinyint
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cart Cart_Product[]
+}
+
+model Log {
+  Id Int @default(autoincrement()) @id
+  actionDescription String
+  action String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  adminId Int @unique
+  admin Admin @relation(fields:[adminId],references:[Id])
+
+  userId Int  @unique
+  user User @relation(fields:[userId],references:[Id])
+}
