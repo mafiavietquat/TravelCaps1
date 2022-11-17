@@ -13,9 +13,12 @@ app.use(fileUpload({
     useTempFiles: true
 }))
 
-app.use('/', (req, res, next) => {
-    res.json({ msg: "Hello!" })
-})
+// app.use('/', (req, res, next) => {
+//     res.json({ msg: "Hello!" })
+// })
+
+//Route
+app.use('/user', require('./routes/userRoute'))
 
 //connect to mysql
 const con = mysql.createConnection({
@@ -27,14 +30,15 @@ const con = mysql.createConnection({
     port: 3307
 });
 
+
 //test connect
 con.connect(function (err) {
     if (err) throw err;
     console.log("Connected to mysql!!!")
 });
 
+const PORT = process.env.PORT
 //PORT
-const PORT = process.env.port || 5000
 app.listen(PORT, () => {
-    console.log("app is listening to ", PORT);
+    console.log("app is listening to", PORT); //PORT 5000
 })
