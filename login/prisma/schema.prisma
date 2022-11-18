@@ -13,10 +13,10 @@ datasource db {
 // Create model database
 model User {
   Id Int @default(autoincrement()) @id
-  userName String @unique
+  username String @unique
   password String
-  firstName String
-  lastName String
+  firstname String
+  lastname String
   email String @unique
   avatar String @default("")
   role Role @default(USER)
@@ -66,8 +66,8 @@ model Cart_Product {
 
 model Place {
   Id Int @default(autoincrement()) @id
-  namePlace String
-  imgPlace String
+  nameplace String
+  imgplace String
   location String @unique
   starRate Boolean //tinyint
   createdAt DateTime @default(now())
