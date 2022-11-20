@@ -22,7 +22,7 @@ const userCtrl = {
             if (!validateEmail(email))
                 return res.status(400).json({ msg: "Invalid email." });
 
-            const emailExist = await prisma.User.count(
+            const emailExist = await prisma.User.findUnique(
                 {
                     where: {
                         email: email
@@ -85,10 +85,10 @@ const userCtrl = {
         try {
             const { email, password } = req.body
 
-            const user = await prisma.User.count({
+            const user = await prisma.User.findUnique({
                 where: {
-                    email: email
-                }
+                    email: email,
+                },
             })
             if (!user) return res.status(400).json({ msg: "This email does not exist!" })
 
@@ -98,15 +98,108 @@ const userCtrl = {
             const refresh_token = createRefreshToken({ id: user.Id })
             res.cookie('refreshtoken', refresh_token, {
                 httpOnly: true,
-                path: '/user/refreshToken',
-                maxAge: 70 * 24 * 60 * 60 * 1000 // 7days
+                path: '/user/refresh_token',
+                maxAge: 7 * 24 * 60 * 60 * 1000 // 7days
             })
 
-            res.login({ msg: "Login success!" })
+            res.json({ msg: "Login success!" })
         } catch (err) {
             res.status(500).json({ msg: err.messgase })
         }
+    },
+    getAccessToken: (req, res) => {
+        try {
+            const rf_token = req.cookies.refreshtoken
+            if (!rf_token) return res.status(400).json({ msg: "Please login now!" })
+
+            jwt.verify(rf_token, REFRESH_TOKEN_SECRET, (err, user) => {
+                if (err) return res.status(400).json({ msg: "Please login now!" })
+
+                const accessToken = createAccessToken({ Id: user.id })
+                res.json({ accessToken })
+            })
+        } catch (err) {
+            return res.status(500).json({ msg: err.messgase })
+        }
+    },
+    forgotPass: async (req, res) => {
+        try {
+            const { email } = req.body
+            const user = await prisma.User.findUnique({ where: { email: email, }, })
+            if (!user) return res.status(400).json({ msg: "This email does not exist!" })
+
+            const access_token = createAccessToken({ Id: user.Id })
+            console.log(access_token);
+            const url = `${CLIENT_URL}/user/activation/${access_token}`
+
+            sendMail(email, url, "Reset your password!")
+            res.json({ msg: "Re-send email, please check your email!" })
+        } catch (err) {
+            return res.status(500).json({ msg: err.messgase })
+        }
+    },
+    resetPass: async (req, res) => {
+        try {
+            const { password } = req.body
+
+            const passwordHash = await bcrypt.hash(password, 12)
+
+            await prisma.User.update({
+                where: {
+                    Id: req.user.Id
+                },
+                data: {
+                    password: passwordHash
+                }
+            })
+            res.json({ msg: "Changed password success!" })
+        } catch (err) {
+            return res.status(500).json({ msg: err.messgase })
+        }
+    },
+    getUserInfo: async (req, res) => {
+        try {
+            const check = await prisma.User.findUnique(
+                {
+                    where: {
+                        Id: req.user.Id,
+                    },
+                    select: {
+                        Id: true,
+                        username: true,
+                        firstname: true,
+                        lastname: true,
+                        email: true,
+                        avatar: true,
+                        role: true,
+                    }
+                })
+            console.log(req.user);
+            res.json(check)
+        } catch (err) {
+            res.status(400).json({ msg: err.messgase })
+        }
+    },
+    getUsersAllInfo: async (req, res) => {
+        try {
+            const check = await prisma.User.findMany(
+                {
+                    select: {
+                        Id: true,
+                        username: true,
+                        firstname: true,
+                        lastname: true,
+                        email: true,
+                        avatar: true,
+                        role: true,
+                    }
+                })
+            res.json(check)
+        } catch (err) {
+            return res.status(500).json({ msg: err.message })
+        }
     }
+
 }
 
 const createActivationToken = (payload) => {
