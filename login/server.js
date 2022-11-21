@@ -22,11 +22,10 @@ app.use('/user', require('./routes/userRoute'))
 
 //connect to mysql
 const con = mysql.createConnection({
-    host: "localhost",
+    host: "127.0.0.1",
     user: "root",
     password: "1234",
     database: "dbTravelCaps",
-    insecureAuth: true,
     port: 3307
 });
 

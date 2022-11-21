@@ -66,8 +66,8 @@ model Cart_Product {
 
 model Place {
   Id Int @default(autoincrement()) @id
-  namePlace String
-  imgPlace String
+  nameplace String
+  imgplace String
   location String @unique
   starRate Boolean //tinyint
   createdAt DateTime @default(now())
